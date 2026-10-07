@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#0d1016">
+<meta name="description" content="语音笔记 —— 专门用来记录你的声音的笔记软件。">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>语音笔记</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+          <path d="M12 3.5v10.2"/><path d="M8.4 6.2v7.5"/><path d="M15.6 6.2v7.5"/>
+          <path d="M4.8 9.2v3.4"/><path d="M19.2 9.2v3.4"/>
+          <path d="M12 17.2v3.3"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>语音笔记</h1>
+        <p>说出想法，自动成文</p>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <label class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/>
+        </svg>
+        <input id="searchInput" type="search" placeholder="搜索标题、文字稿或标签…" autocomplete="off">
+        <button id="btnClearSearch" class="search-clear" type="button" title="清除" hidden>✕</button>
+      </label>
+      <button id="btnTheme" class="icon-btn" type="button" title="切换深浅色">
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4L17 7M7 17l-1.6 1.6"/>
+        </svg>
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M20 14.4A8.4 8.4 0 0 1 9.6 4a8.4 8.4 0 1 0 10.4 10.4z"/>
+        </svg>
+      </button>
+      <button id="btnSettings" class="icon-btn" type="button" title="设置与数据">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="3.1"/>
+          <path d="M12 2.8v2.1M12 19.1v2.1M4.5 7.5l1.8 1M17.7 15.5l1.8 1M4.5 16.5l1.8-1M17.7 8.5l1.8-1"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="side-head">
+        <div class="chips" id="filters">
+          <button class="chip is-active" data-filter="all" type="button">全部</button>
+          <button class="chip" data-filter="fav" type="button">收藏</button>
+          <button class="chip" data-filter="trash" type="button">回收站</button>
+        </div>
+        <div class="side-stats" id="stats"></div>
+      </div>
+
+      <ul class="note-list" id="noteList"></ul>
+
+      <div class="list-empty" id="listEmpty" hidden>
+        <div class="le-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <rect x="9" y="2.8" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0"/><path d="M12 18v3.2"/>
+          </svg>
+        </div>
+        <p id="listEmptyText">还没有语音笔记</p>
+        <span id="listEmptyHint">点下面的麦克风，说一句试试</span>
+      </div>
+    </aside>
+
+    <section class="detail" id="detail">
+      <div class="detail-empty" id="detailEmpty">
+        <div class="de-art" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+            <rect x="9" y="2.8" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0"/><path d="M12 18v3.2"/>
+          </svg>
+        </div>
+        <h2>选择一条笔记</h2>
+        <p>左侧点开任意一条语音笔记，就能播放录音、编辑文字稿。</p>
+      </div>
+
+      <article class="note-view" id="noteView" hidden>
+        <div class="note-head">
+          <button id="btnBack" class="icon-btn back-btn" type="button" title="返回列表">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.5 5.5L8 12l6.5 6.5"/>
+            </svg>
+          </button>
+          <input id="noteTitle" class="note-title" type="text" placeholder="未命名笔记" maxlength="80">
+          <button id="btnFav" class="icon-btn star" type="button" title="收藏">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round">
+              <path d="M12 3.6l2.7 5.5 6 .9-4.35 4.25 1.03 6-5.38-2.83L6.62 20.2l1.03-6L3.3 10l6-.9z"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="note-meta" id="noteMeta"></div>
+
+        <div class="player" id="player">
+          <button id="btnPlay" class="play-btn" type="button" title="播放 / 暂停">
+            <svg class="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.2v13.6L19 12z"/></svg>
+            <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="5" width="3.6" height="14" rx="1.2"/><rect x="13.4" y="5" width="3.6" height="14" rx="1.2"/></svg>
+          </button>
+          <div class="wave-wrap" id="waveWrap">
+            <canvas id="waveCanvas"></canvas>
+          </div>
+          <div class="player-right">
+            <span class="time" id="timeLabel">0:00 / 0:00</span>
+            <button id="btnRate" class="mini-btn" type="button" title="播放速度">1×</button>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <h3>文字稿 <span class="muted" id="transcriptCount"></span></h3>
+            <div class="block-actions">
+              <button id="btnStamp" class="mini-btn" type="button" title="在光标处插入当前播放时间">插时间戳</button>
+              <button id="btnCopy" class="mini-btn" type="button">复制</button>
+              <button id="btnClearText" class="mini-btn" type="button">清空</button>
+            </div>
+          </div>
+          <textarea id="noteTranscript" class="transcript" placeholder="暂无文字稿。可以在录音时开启自动转写，也可以在这里手动输入…"></textarea>
+        </div>
+
+        <div class="block">
+          <div class="block-head"><h3>标签</h3></div>
+          <div class="tag-editor">
+            <div class="tag-list" id="tagList"></div>
+            <input id="tagInput" class="tag-input" type="text" placeholder="输入标签后按回车…" maxlength="16">
+          </div>
+        </div>
+
+        <div class="note-actions">
+          <button id="btnDownload" class="btn" type="button">下载音频</button>
+          <button id="btnExportNote" class="btn" type="button">导出这条</button>
+          <button id="btnRestore" class="btn" type="button" hidden>恢复这条笔记</button>
+          <button id="btnDelete" class="btn danger" type="button">删除</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div class="dock">
+    <div class="dock-side" id="dockStats"></div>
+    <div class="dock-center">
+      <button id="btnRecord" class="record-btn" type="button" title="开始录音（空格）">
+        <span class="record-ring"></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+          <rect x="9" y="2.8" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0"/><path d="M12 18v3.2"/>
+        </svg>
+      </button>
+      <div class="dock-hint" id="dockHint">按空格或点击麦克风开始录音</div>
+    </div>
+    <div class="dock-side right"><span id="recDot" class="rec-dot" hidden></span></div>
+  </div>
+</div>
+
+<!-- ============ 录音浮层 ============ -->
+<div class="overlay" id="recOverlay" hidden>
+  <div class="rec-panel">
+    <div class="rec-top">
+      <div class="rec-status"><span class="pulse" id="recPulse"></span><span id="recStatus">录音中</span></div>
+      <div class="rec-timer" id="recTimer">00:00</div>
+    </div>
+
+    <canvas id="recCanvas" class="rec-canvas"></canvas>
+
+    <div class="rec-live" id="recLive">
+      <span class="rec-live-hint" id="recLiveHint">正在聆听…</span>
+      <p class="rec-live-text"><span id="recFinal"></span><span id="recInterim" class="interim"></span></p>
+    </div>
+
+    <div class="rec-controls">
+      <button id="btnCancel" class="btn ghost" type="button">取消</button>
+      <button id="btnPause" class="btn" type="button">暂停</button>
+      <button id="btnStop" class="btn primary" type="button">完成并保存</button>
+    </div>
+    <p class="rec-tip" id="recTip">录音只保存在本机，不会上传到任何服务器</p>
+  </div>
+</div>
+
+<!-- ============ 设置面板 ============ -->
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-backdrop" data-close></div>
+  <div class="sheet-panel" role="dialog" aria-label="设置与数据">
+    <div class="sheet-head">
+      <h2>设置与数据</h2>
+      <button class="icon-btn" type="button" data-close title="关闭">✕</button>
+    </div>
+    <div class="sheet-body">
+      <section class="setting">
+        <h3>外观</h3>
+        <div class="seg" id="themeSeg">
+          <button type="button" data-theme="dark">深色</button>
+          <button type="button" data-theme="light">浅色</button>
+          <button type="button" data-theme="auto">跟随系统</button>
+        </div>
+      </section>
+
+      <section class="setting">
+        <h3>语音识别</h3>
+        <label class="switch">
+          <input type="checkbox" id="optAutoTranscribe" checked>
+          <span class="track"></span>
+          <span class="label">录音时自动转写文字</span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="optShowInterim" checked>
+          <span class="track"></span>
+          <span class="label">显示实时上屏的临时文字</span>
+        </label>
+        <p class="hint" id="speechSupport"></p>
+      </section>
+
+      <section class="setting">
+        <h3>数据</h3>
+        <label class="switch">
+          <input type="checkbox" id="optBackupAudio" checked>
+          <span class="track"></span>
+          <span class="label">导出备份时包含音频（文件较大）</span>
+        </label>
+        <div class="btn-row">
+          <button id="btnBackup" class="btn" type="button">导出全部备份</button>
+          <button id="btnRestore" class="btn" type="button">导入备份</button>
+          <button id="btnImportAudio" class="btn" type="button">导入音频文件</button>
+          <button id="btnEmptyTrash" class="btn danger" type="button">清空回收站</button>
+        </div>
+        <p class="hint" id="storageInfo"></p>
+      </section>
+
+      <section class="setting">
+        <h3>关于</h3>
+        <p class="hint">
+          语音笔记 v1.0 · 一款只为“说话”准备的笔记软件。<br>
+          所有录音、文字稿都保存在你这台设备的浏览器本地存储里，不上传服务器，也不需要注册账号。<br>
+          小技巧：空格键开始/结束录音，Esc 关闭弹窗，Ctrl/⌘+F 聚焦搜索。
+        </p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<input type="file" id="fileRestore" accept=".json,application/json" hidden>
+<input type="file" id="fileAudio" accept="audio/*" multiple hidden>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

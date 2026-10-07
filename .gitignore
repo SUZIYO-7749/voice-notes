@@ -1,0 +1,46 @@
+# ============================================================
+#  语音笔记 .gitignore
+# ============================================================
+
+# ---------- 签名密钥（绝对不能提交！）----------
+# 这是给 APK 签名的私钥：
+#   * 泄露 → 别人能签出冒充本应用的安装包，覆盖升级已安装的用户
+#   * 丢失 → 以后的新包无法覆盖升级，用户只能先卸载再装
+# 本仓库是公开仓库，所以密钥只保存在本地，并另行备份（见 README）。
+/android/keystore/*.jks
+/android-native/keystore/*.jks
+*.jks
+*.keystore
+
+# ---------- 构建产物 ----------
+# 网页版 APK 打包时会把网页资源同步到这里，由 tools/build-apk.ps1 生成
+/android/app/src/main/assets/www/
+/android/build-raw/
+/android-native/build-raw/
+*.idsig
+/local.properties
+/android/local.properties
+/android-native/local.properties
+
+# ---------- 本机相关配置 ----------
+# 由 tools/setup-android.ps1 生成，里面是本机的绝对路径（含用户名）
+/tools/android-env.ps1
+
+# ---------- 测试临时产物 ----------
+.chrome-profile/
+.chrome-e2e/
+.chrome-mobile/
+.mobile-shots/
+.verify-*
+/.verify-*.png
+
+# ---------- 系统与编辑器 ----------
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+*.log
+.idea/
+.vscode/
+__pycache__/
+node_modules/

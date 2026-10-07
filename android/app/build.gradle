@@ -1,0 +1,47 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    // 包名写在 AndroidManifest.xml 的 package 属性里（和手工用 aapt2 打包保持一致）
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.voicenotes.app"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('../keystore/voice-notes.jks')
+            storePassword 'voicenotes'
+            keyAlias 'voicenotes'
+            keyPassword 'voicenotes'
+        }
+    }
+
+    buildTypes {
+        release {
+            // 不做代码压缩，避免 R8 意外改动反射/JS 桥
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    // WebViewAssetLoader：把 assets 以 https 域提供出去
+    implementation 'androidx.webkit:webkit:1.11.0'
+}

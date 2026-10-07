@@ -1,0 +1,6 @@
+// 语音笔记 · 安卓封装工程
+// 只做一件事：把 Web 应用装进 WebView，并通过 https 资源域提供页面，
+// 这样 WebView 认为它是安全上下文，getUserMedia（麦克风）才可用。
+plugins {
+    id 'com.android.application' version '8.5.2' apply false
+}

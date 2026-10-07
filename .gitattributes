@@ -1,0 +1,14 @@
+# 文本文件统一用 LF 存进仓库，避免 Windows/Linux 换行差异造成满屏 diff
+* text=auto
+
+# 下面这些是二进制，git 不要尝试做换行转换或行内 diff
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.jks binary
+*.keystore binary
+*.apk binary
+*.idsig binary
+*.woff2 binary

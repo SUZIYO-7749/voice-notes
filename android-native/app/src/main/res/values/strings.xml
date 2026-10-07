@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">语音笔记</string>
+    <string name="tagline">说出想法，自动成文</string>
+
+    <string name="search_hint">搜索标题、文字稿或标签…</string>
+    <string name="filter_all">全部</string>
+    <string name="filter_fav">收藏</string>
+    <string name="empty_title">还没有语音笔记</string>
+    <string name="empty_hint">点下面的麦克风，说一句试试</string>
+    <string name="empty_search">没有匹配的笔记</string>
+
+    <string name="record_start">准备录音</string>
+    <string name="record_recording">录音中</string>
+    <string name="record_paused">已暂停</string>
+    <string name="record_cancel">取消</string>
+    <string name="record_pause">暂停</string>
+    <string name="record_resume">继续</string>
+    <string name="record_finish">完成并保存</string>
+    <string name="record_hint">录音只保存在这台设备上</string>
+
+    <string name="detail_title_hint">未命名笔记</string>
+    <string name="detail_transcript">文字稿</string>
+    <string name="detail_transcript_hint">这里可以编辑文字稿，或者用下面的「语音输入」把说的话变成文字…</string>
+    <string name="detail_tags">标签</string>
+    <string name="detail_tags_hint">用逗号分隔，例如：会议,想法</string>
+    <string name="detail_dictate">语音输入</string>
+    <string name="detail_dictate_stop">停止识别</string>
+    <string name="detail_copy">复制文字稿</string>
+    <string name="detail_clear">清空文字稿</string>
+    <string name="detail_export">导出音频</string>
+    <string name="detail_delete">删除</string>
+    <string name="detail_saved">已保存</string>
+
+    <string name="fav_add">收藏</string>
+    <string name="fav_remove">取消收藏</string>
+    <string name="menu_fav">收藏 / 取消收藏</string>
+    <string name="menu_delete">删除</string>
+
+    <string name="no_mic_permission">没有麦克风权限，无法录音</string>
+    <string name="mic_rationale">录音需要访问麦克风</string>
+</resources>

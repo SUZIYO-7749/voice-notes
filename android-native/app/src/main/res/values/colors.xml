@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#0D1016</color>
+    <color name="bg_soft">#12161E</color>
+    <color name="surface">#171C25</color>
+    <color name="surface2">#1E242F</color>
+    <color name="surface3">#262D3A</color>
+    <color name="line">#262E3B</color>
+    <color name="text">#E9EDF4</color>
+    <color name="text2">#B3BCCB</color>
+    <color name="muted">#7D8798</color>
+    <color name="accent">#7C6CFF</color>
+    <color name="accent_dim">#4A3FA8</color>
+    <color name="record">#FF4D5E</color>
+    <color name="warn">#F0B429</color>
+    <color name="wave_active">#8B7CFF</color>
+    <color name="wave_idle">#2D3546</color>
+    <color name="ic_launcher_background">#7C6CFF</color>
+</resources>
